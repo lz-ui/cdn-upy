@@ -20,7 +20,9 @@ class LzCdn{
         if(!config.filePath)  return false;
 
         // 要上传的本地文件路径
-        this.filePath = path.join('./dist');
+        this.filePath = path.join(`${config.filePath}`);
+
+        this.log = config.log || false
 
         const uId = uuid.v4().split('-')[4]
         const myDate = new Date();
@@ -35,7 +37,9 @@ class LzCdn{
     // 上传
     uploadFile(localFile) {
         client.formPutFile(this.remoteFile + localFile, fs.createReadStream(localFile)).then(res => {
-            console.log(`https://cdn.jczxw.cn`+ res.url)
+            if(this.log){
+                console.log(`https://cdn.jczxw.cn`+ res.url)
+            }
         })
     }
     // 获取文件路径-递归
